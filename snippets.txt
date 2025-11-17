@@ -1,0 +1,42 @@
+MuleSoft for Agentforce: Topic Center - Snippets
+
+* EXERCISE 1 - TASK 1 *************************************************
+
+* MuleSoft Login URL:
+https://anypoint.mulesoft.com/login/signup
+
+* EXERCISE 2 - TASK 4 *************************************************
+
+* Classification Description
+This API allows agents to book hotel reservations, as well as apply loyalty upgrades.
+
+* Scope
+Your job is to assist customers in booking hotel rooms based on their preferences and loyalty status. You should also be able to recommend upgrades if the customer qualifies.
+
+* Instruction 1
+The available room types are Standard, Deluxe or Suite.
+
+* Instruction 2
+If the customer is requesting details about their reservation, you must always ask for a Reservation ID, then execute the 'getReservation' action to retrieve details of their reservation.
+
+* Instruction 3
+If the customer asks to create a reservation or reserve a hotel room, you must first calculate the price of the hotel stay based on the check in date, checkout date and room type. Use the 'getReservationPrice' action to calculate the total price and ask the customer to confirm if the price is okay.
+
+* Instruction 4
+If the customer is okay with the total price, ask if they have any special requests. Then, use the desired check-in date, check out date, and room type to create the reservation with the 'createReservation' action.
+
+* Instruction 5
+If a date is provided, convert the date to YYYY-MM-DD format and ensure that the date is not in the past before using it for the 'getReservationPrice' or the 'reservationCreate' actions. If a past date is provided, explain to the client the date must be in future.
+
+* EXERCISE 3 - TASK 3 *************************************************
+
+* Upstream URL
+https://acme-reservations-app-x8vv3c.5sc6y6-2.usa-e2.cloudhub.io/api
+
+* API Proxy Public Endpoint
+https://acme-reservations-api-nszi8q.5sc6y6-2.usa-e2.cloudhub.io/
+
+* EXERCISE 4 - TASK 1 *************************************************
+
+Client_ID: f5e0a005b60d4f2d94a2ebea39c4c863
+Client_Secret: 17b629C1EA7044e29E90e559Ab58EB0C

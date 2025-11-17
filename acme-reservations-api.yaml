@@ -1,0 +1,219 @@
+openapi: "3.0.0"
+info:
+  version: v1
+  title: ACME Reservations API
+  description: |
+    This document represents **Experience API** for **ACME International** chain of hotels.
+    It will be used to process hotel room reservations, to check prices, and to apply loyalty benefits.
+
+# x-sfdc/agent/topic tags populated from the Agent Topics configuration panel
+x-sfdc:
+  agent:
+    topic:
+      name: ACME Reservations API
+      classificationDescription: Use the API description
+      scope: Give your topic a job description, and be specific. For example, “Your job is only to...”
+      instructions:
+        - Define a topic-specific instruction for how an agent should use available actions. For example. “Always...”, “Never....”, “If x, then y....”
+
+paths:
+  /reservations:
+    post:
+      operationId: createReservation
+      summary: Create a new hotel reservation
+      description: Book a hotel room with specified preferences and apply loyalty upgrades if eligible.
+      # add x-sfdc/agent/action/publishAsAgentAction tags below to create a custom agent action for the operation
+      requestBody:
+        required: true
+        description: Represents input data that must be sent to create a new reservation
+        content:
+          application/json:
+            schema:
+              # add x-sfdc/agent/action/isUserInput tags below to indicate that the requestBody should be populated by an agent
+              additionalProperties: false
+              type: object
+              properties:
+                checkInDate:
+                  type: string
+                  format: date
+                  description: Date of check-in.
+                checkOutDate:
+                  type: string
+                  format: date
+                  description: Date of check-out.
+                roomType:
+                  type: string
+                  description: Preferred room type.
+                specialRequests:
+                  type: string
+                  description: Additional requests like pillow type or air freshener choice.
+              required:
+                - checkInDate
+                - checkOutDate
+                - roomType
+              example:
+                checkInDate: 2025-04-05
+                checkOutDate: 2025-04-07
+                roomType: Deluxe
+                specialRequests: none
+      responses:
+        "201":
+          description: Reservation successfully created
+          content:
+            application/json:
+              schema:
+                # add x-sfdc/agent/action/isDisplayable and x-sfdc/privacy/isPii tags below to indicate that a successful response should be displayable, and to protect personally identifiable information
+                additionalProperties: false
+                type: object
+                properties:
+                  reservationID:
+                    type: string
+                    description: Unique ID of the created reservation.
+                  upgradeApplied:
+                    type: boolean
+                    description: Indicates if a loyalty-based upgrade was applied.
+                  totalPrice:
+                    type: number
+                    format: float
+                    description: Final price after applying any discounts or upgrades.
+                example:
+                  reservationID: QWERTY
+                  upgradeApplied: false
+                  totalPrice: 499.98
+
+  /reservations/{reservationID}:
+    parameters:
+      -
+        in: path
+        name: reservationID
+        # add x-sfdc/agent/action/isUserInput tags to indicate that the parameter should be populated by a user or agent
+        required: true
+        description: Represents unique reservation ID
+        schema:
+          type: string
+          description: Unique identifier of the reservation
+          example: QWERTY
+    get:
+      operationId: getReservation
+      summary: Retrieve reservation details
+      description: Get details of a specific reservation by ID.
+      x-sfdc:
+        agent:
+          action:
+            publishAsAgentAction: true
+      responses:
+        "200":
+          description: Reservation details retrieved successfully
+          content:
+            application/json:
+              schema:
+                x-sfdc:
+                  agent:
+                    action:
+                      isDisplayable: true
+                  privacy:
+                    isPii: true
+                additionalProperties: false
+                type: object
+                properties:
+                  reservationID:
+                    type: string
+                    description: Unique ID of the created reservation.
+                  customerID:
+                    type: string
+                    description: Unique ID of the customer.
+                  roomType:
+                    type: string
+                    description: Preferred room type.
+                  checkInDate:
+                    type: string
+                    format: date
+                    description: Date of check-in.
+                  checkOutDate:
+                    type: string
+                    format: date
+                    description: Date of check-out.
+                  upgradeApplied:
+                    type: boolean
+                    description: Indicates if a loyalty-based upgrade was applied.
+                example:
+                  reservationID: QWERTY
+                  customerID: FYIXYZPDQFWIWBRB
+                  roomType: Deluxe
+                  checkInDate: 2025-04-05
+                  checkOutDate: 2025-04-07
+                  upgradeApplied: false
+
+  /reservations/price:
+    get:
+      operationId: getReservationPrice
+      summary: Calculates the price of the hotel stay
+      description: Calculates the price of a requested hotel stay based on the length of stay, the check in date, and preferred room type.
+      x-sfdc:
+        agent:
+          action:
+            publishAsAgentAction: true
+      parameters:
+        -
+          in: query
+          name: checkInDate
+          x-sfdc:
+            agent:
+              action:
+                isUserInput: true
+          required: true
+          description: Check in date for the reservation
+          schema:
+            type: string
+            format: date
+            example: 2025-04-05
+        -
+          in: query
+          name: checkOutDate
+          x-sfdc:
+            agent:
+              action:
+                isUserInput: true
+          required: true
+          description: Check out date for the reservation
+          schema:
+            type: string
+            format: date
+            example: 2025-04-07
+        -
+          in: query
+          name: roomType
+          x-sfdc:
+            agent:
+              action:
+                isUserInput: true
+          required: true
+          description: Room type
+          schema:
+            type: string
+            enum:
+              - Standard
+              - Deluxe
+              - Suite
+            example: Deluxe
+      responses:
+        "200":
+          description: Reservation price successfully retrieved
+          content:
+            application/json:
+              schema:
+                additionalProperties: false
+                type: object
+                x-sfdc:
+                  agent:
+                    action:
+                      isDisplayable: true
+                  privacy:
+                    isPii: true
+                properties:
+                  totalPrice:
+                    type: number
+                    format: float
+                    description: Final price after applying any discounts or upgrades.
+                example:
+                  totalPrice: 499.98
