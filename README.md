@@ -10,7 +10,7 @@ Instructor email: vlowe@salesforce.com
 
 VM login: https://use.cloudshare.com
 
-VM Pass Phrase: <bill the silly tiger>
+VM Pass Phrase: Louis the Jealous Hamster
 
 This repo contains copies of the student files used in the labs
 
