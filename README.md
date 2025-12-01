@@ -8,7 +8,7 @@ Instructor email: vlowe@salesforce.com
 
 ---
 
-VM login: https://use.cloudshare.com
+VM login: https://use.cloudshare.com/Class/ybcuz
 
 VM Pass Phrase: Louis the Jealous Hamster
 
