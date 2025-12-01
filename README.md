@@ -2,9 +2,9 @@
 
 Shared information document for students in Mulesoft MSA001 workshop
 
-Instructor: <your name here>
+Instructor: Vincent Lowe
 
-Instructor email: <your email here>
+Instructor email: vlowe@salesforce.com
 
 ---
 
@@ -13,3 +13,4 @@ VM login: https://use.cloudshare.com
 VM Pass Phrase: <bill the silly tiger>
 
 This repo contains copies of the student files used in the labs
+
